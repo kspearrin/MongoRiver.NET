@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
 VisualStudioVersion = 12.0.30723.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MongoRiver", "MongoRiver\MongoRiver.csproj", "{65229156-B552-49F4-A5F9-EE0D6BEFA319}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MongoRiver", "src\MongoRiver\MongoRiver.csproj", "{65229156-B552-49F4-A5F9-EE0D6BEFA319}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MongoRiver.Tests", "MongoRiver.Tests\MongoRiver.Tests.csproj", "{A53128B2-41D9-4A35-A01C-C68213471441}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MongoRiver.Tests", "src\MongoRiver.Tests\MongoRiver.Tests.csproj", "{A53128B2-41D9-4A35-A01C-C68213471441}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

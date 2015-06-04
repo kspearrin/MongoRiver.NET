@@ -46,14 +46,19 @@ namespace MongoRiver
             }
         }
 
-        public virtual async Task<Oplog> GetMostRecentOplog(DateTime? beforeDate = null)
+        public virtual async Task<Oplog> GetMostRecentOplog(DateTime beforeDate)
+        {
+            return await GetMostRecentOplog(new BsonTimestamp(beforeDate.ToInt(), 0));
+        }
+
+        public virtual async Task<Oplog> GetMostRecentOplog(BsonTimestamp beforeTime = null)
         {
             SortDefinition<Oplog> sort = Builders<Oplog>.Sort.Descending("$natural");
-            FilterDefinition<Oplog> filter = new BsonDocument();
 
-            if(beforeDate.HasValue)
+            FilterDefinition<Oplog> filter = new BsonDocument();
+            if(beforeTime != null)
             {
-                filter = Builders<Oplog>.Filter.Lt(o => o.Timestamp, new BsonTimestamp(beforeDate.Value.ToInt() + 1, 0));
+                filter = Builders<Oplog>.Filter.Lte(o => o.Timestamp, beforeTime);
             }
 
             Oplog record = await m_oplogCollection.Find(filter).Sort(sort).FirstOrDefaultAsync();

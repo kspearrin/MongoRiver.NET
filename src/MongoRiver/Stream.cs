@@ -25,6 +25,18 @@ namespace MongoRiver
             m_outlet = outlet;
         }
 
+        public async Task RunForever(DateTime startDate)
+        {
+            var startOplog = await m_tailer.GetMostRecentOplog(startDate);
+            await RunForever(startOplog);
+        }
+
+        public async Task RunForever(BsonTimestamp startTime)
+        {
+            var startOplog = await m_tailer.GetMostRecentOplog(startTime);
+            await RunForever(startOplog);
+        }
+
         public async Task RunForever(Oplog startOplog = null)
         {
             await m_tailer.Tail(startOplog);

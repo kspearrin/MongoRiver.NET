@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?><package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+  <metadata>
+    <id>MongoRiver.NET</id>
+    <version>1.0.0</version>
+    <authors>Kyle Spearrin</authors>
+    <projectUrl>https://github.com/kspearrin/MongoRiver.NET</projectUrl>
+    <licenseUrl>https://github.com/kspearrin/MongoRiver.NET/LICENSE.txt</licenseUrl>
+    <title>MongoRiver.NET</title>
+    <description>A library for writing .NET MongoDB oplog tailers. For documentation, visit https://github.com/kspearrin/MongoRiver.NET</description>
+    <tags>mongodb river oplog mongo mongoriver</tags>
+    <dependencies>
+      <dependency id="MongoDB.Driver" version="2.0.0"/>
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="src\MongoRiver\bin\Release\MongoRiver.dll" target="lib\net45"/>
+  </files>
+</package>
