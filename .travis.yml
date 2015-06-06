@@ -3,3 +3,8 @@ solution: MongoRiver.NET.sln
 script:
   - xbuild /p:Configuration=Release MongoRiver.NET.sln
   - mono ./packages/xunit.runner.console.*/tools/xunit.console.exe ./src/MongoRiver.Tests/bin/Release/MongoRiver.Tests.dll -trait "Build=Runnable"
+before_install:
+  - sudo bash -c "echo deb http://badgerports.org precise main >> /etc/apt/sources.list"
+  - sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 0E1FAD0C
+  - sudo apt-get update
+  - sudo apt-get install mono-devel
