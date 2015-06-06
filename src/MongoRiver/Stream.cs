@@ -25,30 +25,52 @@ namespace MongoRiver
             m_outlet = outlet;
         }
 
+        /// <summary>
+        /// Start streaming the oplog tailer forever.
+        /// </summary>
+        /// <param name="startDate">The date time of the oplog timestamp to start at.</param>
+        /// <returns>A never-ending task.</returns>
         public async Task RunForever(DateTime startDate)
         {
             var startOplog = await m_tailer.GetMostRecentOplog(startDate);
             await RunForever(startOplog);
         }
 
+        /// <summary>
+        /// Start streaming the oplog tailer forever.
+        /// </summary>
+        /// <param name="startTime">The oplog timestamp to start at.</param>
+        /// <returns>A never-ending task.</returns>
         public async Task RunForever(BsonTimestamp startTime)
         {
             var startOplog = await m_tailer.GetMostRecentOplog(startTime);
             await RunForever(startOplog);
         }
 
+        /// <summary>
+        /// Start streaming the oplog tailer forever.
+        /// </summary>
+        /// <param name="startOplog">The oplog to start at.</param>
+        /// <returns>A never-ending task.</returns>
         public async Task RunForever(Oplog startOplog = null)
         {
             await m_tailer.Tail(startOplog);
             await m_tailer.Stream(oplog => HandleOperation(oplog));
         }
 
+        /// <summary>
+        /// Stop the oplog tailer.
+        /// </summary>
         public void Stop()
         {
             m_tailer.Stop();
             m_tailer.Dispose();
         }
 
+        /// <summary>
+        /// Handle an oplog operation.
+        /// </summary>
+        /// <param name="oplog">The oplog to handle.</param>
         public void HandleOperation(Oplog oplog)
         {
             if(oplog.Operation == "n")
