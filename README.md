@@ -20,7 +20,21 @@ for more info.
 
 ## How to use it
 
-### Step 1: Create an outlet
+### Step 1: Install and use
+
+You can install MongoRiver.NET from [nuget](https://www.nuget.org/packages/MongoRiver.NET):
+
+    PM> Install-Package MongoRiver.NET
+
+Or download and build the source from here and reference the `MongoRiver.dll`.
+
+Then add using statements:
+
+```csharp
+using MongoRiver;
+```
+
+### Step 2: Create an outlet
 
 You'll need to write a class that implements the
 [`MongoRiver.IOutlet`](https://github.com/kspearrin/MongoRiver.NET/blob/master/src/MongoRiver/IOutlet.cs) interface.
@@ -48,7 +62,7 @@ You should think of these methods like callbacks -- if you want to do something
 every time a document is inserted into the MongoDB database, implement the
 `Insert` method.
 
-### Step 2: Create and run a stream
+### Step 3: Create and run a stream
 
 Once you've written your class, you can start tailing the MongoDB oplog! Here's
 the code you'll need to use:
