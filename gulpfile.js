@@ -56,6 +56,7 @@ gulp.task('test', ['copy'], function() {
         .src(['src/MongoRiver.Tests/bin/Release/MongoRiver.Tests.dll'], {read: false})
         .pipe(xunit({
             executable: 'packages/xunit.runner.console.2.0.0/tools',
+            trait: 'Build=Runnable'
         }));
 });
 

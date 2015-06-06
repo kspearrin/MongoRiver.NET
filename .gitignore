@@ -140,6 +140,7 @@ publish/
 packages/*
 # Folder with nuget.exe (build.cmd will restore this)
 .nuget/*
+.nuget/packages.config
 
 # Windows Azure Build Output
 csx/

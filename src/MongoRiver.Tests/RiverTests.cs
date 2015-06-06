@@ -20,6 +20,7 @@ namespace MongoRiver.Tests
         }
 
         [Fact]
+        [Trait("Build", "Runnable")]
         public void Stream_HandleOperationInsert()
         {
             var insertedDocument = new BsonDocument("_id", "baz");
@@ -31,6 +32,7 @@ namespace MongoRiver.Tests
         }
 
         [Fact]
+        [Trait("Build", "Runnable")]
         public void Stream_HandleOperationUpdate()
         {
             var updatedDocument = new BsonDocument("_id", "baz");
@@ -43,6 +45,7 @@ namespace MongoRiver.Tests
         }
 
         [Fact]
+        [Trait("Build", "Runnable")]
         public void Stream_HandleOperationDelete()
         {
             var filterDocument = new BsonDocument("_id", "baz");
@@ -54,6 +57,7 @@ namespace MongoRiver.Tests
         }
 
         [Fact]
+        [Trait("Build", "Runnable")]
         public void Stream_HandleOperationCreateCollection()
         {
             var createDocument = new BsonDocument(new List<BsonElement>
@@ -77,6 +81,7 @@ namespace MongoRiver.Tests
         }
 
         [Fact]
+        [Trait("Build", "Runnable")]
         public void Stream_HandleOperationRenameCollection()
         {
             var renameDocument = new BsonDocument(new List<BsonElement>
@@ -93,6 +98,7 @@ namespace MongoRiver.Tests
         }
 
         [Fact]
+        [Trait("Build", "Runnable")]
         public void Stream_HandleOperationDeleteCollection()
         {
             var deleteDocument = new BsonDocument(new BsonElement("drop", "bar"));
@@ -104,6 +110,7 @@ namespace MongoRiver.Tests
         }
 
         [Fact]
+        [Trait("Build", "Runnable")]
         public void Stream_HandleOperationCreateIndex()
         {
             var indexKeyDocument = new BsonDocument("baz", 1);
@@ -126,6 +133,7 @@ namespace MongoRiver.Tests
         }
 
         [Fact]
+        [Trait("Build", "Runnable")]
         public void Stream_HandleOperationDeleteIndex()
         {
             var deleteDocument = new BsonDocument(new List<BsonElement>
@@ -142,6 +150,7 @@ namespace MongoRiver.Tests
         }
 
         [Fact]
+        [Trait("Build", "Runnable")]
         public void Stream_HandleOperationDeleteDatabase()
         {
             var deleteDocument = new BsonDocument("dropDatabase", 1);
