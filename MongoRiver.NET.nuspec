@@ -4,7 +4,8 @@
     <version>1.0.0</version>
     <authors>Kyle Spearrin</authors>
     <projectUrl>https://github.com/kspearrin/MongoRiver.NET</projectUrl>
-    <licenseUrl>https://github.com/kspearrin/MongoRiver.NET/LICENSE.txt</licenseUrl>
+    <iconUrl>http://i.imgur.com/9M2oAwT.png</iconUrl>
+    <licenseUrl>https://raw.githubusercontent.com/kspearrin/MongoRiver.NET/master/LICENSE.txt</licenseUrl>
     <title>MongoRiver.NET</title>
     <description>A library for writing .NET MongoDB oplog tailers. For documentation, visit https://github.com/kspearrin/MongoRiver.NET</description>
     <tags>mongodb river oplog mongo mongoriver</tags>
