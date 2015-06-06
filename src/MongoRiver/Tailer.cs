@@ -14,6 +14,8 @@ namespace MongoRiver
         protected bool m_stopped = false;
         protected bool m_streaming = false;
 
+        public Tailer() { }
+
         public Tailer(IMongoClient client, MongoCollectionSettings oplogCollectionSettings = null, string oplogCollectionName = "oplog.rs")
         {
             if(client == null)

@@ -49,7 +49,7 @@ namespace MongoRiver
             m_tailer.Dispose();
         }
 
-        private void HandleOperation(Oplog oplog)
+        public void HandleOperation(Oplog oplog)
         {
             if(oplog.Operation == "n")
             {

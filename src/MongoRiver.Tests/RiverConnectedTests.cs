@@ -17,11 +17,17 @@ namespace MongoRiver.Tests
     {
         private const string MongoConnectionString = "mongodb://localhost:27017/?replicaSet=rs1";
 
+        private readonly IMongoClient m_client;
+
+        public RiverConnectedTests()
+        {
+            m_client = new MongoClient(MongoConnectionString);
+        }
+
         [Fact]
         public async Task Stream_ExecuteCorrectOperationsInCorrectOrder()
         {
-            var client = new MongoClient(MongoConnectionString);
-            var tailer = new Tailer(client);
+            var tailer = new Tailer(m_client);
             IOutlet output = Substitute.For<IOutlet>();
             var stream = new Stream(tailer, output);
             Oplog lastOplog = await tailer.GetMostRecentOplog();
@@ -36,7 +42,7 @@ namespace MongoRiver.Tests
             var indexKeyDocument = new BsonDocument("Bar", 1);
             var indexOptionsDocument = new BsonDocument("name", indexName);
 
-            IMongoDatabase database = client.GetDatabase(databaseName);
+            IMongoDatabase database = m_client.GetDatabase(databaseName);
             IMongoCollection<FooBarDocument> collection = database.GetCollection<FooBarDocument>(collectionName);
 
             await collection.InsertOneAsync(insertedDocument);
@@ -49,7 +55,7 @@ namespace MongoRiver.Tests
 
             await database.RenameCollectionAsync(collectionName, newCollectionName);
             await database.DropCollectionAsync(newCollectionName);
-            await client.DropDatabaseAsync(databaseName);
+            await m_client.DropDatabaseAsync(databaseName);
 
             await RunStream(stream, lastOplog);
 
@@ -75,8 +81,7 @@ namespace MongoRiver.Tests
         [Fact]
         public async Task Stream_CreateCollectionWithOptions()
         {
-            var client = new MongoClient(MongoConnectionString);
-            var tailer = new Tailer(client);
+            var tailer = new Tailer(m_client);
             IOutlet output = Substitute.For<IOutlet>();
             var stream = new Stream(tailer, output);
             Oplog lastOplog = await tailer.GetMostRecentOplog();
@@ -87,10 +92,10 @@ namespace MongoRiver.Tests
             var databaseName = "_Test_MongoRiver";
             var collectionName = "_Test_MongoRiver";
 
-            IMongoDatabase database = client.GetDatabase(databaseName);
+            IMongoDatabase database = m_client.GetDatabase(databaseName);
 
             await database.CreateCollectionAsync(collectionName, collectionOptions);
-            await client.DropDatabaseAsync(databaseName);
+            await m_client.DropDatabaseAsync(databaseName);
 
             await RunStream(stream, lastOplog);
 
@@ -106,8 +111,7 @@ namespace MongoRiver.Tests
         [Fact]
         public async Task Stream_IgnoresEverythingBeforeOperationPassedIn()
         {
-            var client = new MongoClient(MongoConnectionString);
-            var tailer = new Tailer(client);
+            var tailer = new Tailer(m_client);
             IOutlet output = Substitute.For<IOutlet>();
             var stream = new Stream(tailer, output);
 
@@ -116,7 +120,7 @@ namespace MongoRiver.Tests
 
             var insertedDocument = new FooBarDocument { Id = "foo", Bar = "baz" };
 
-            IMongoDatabase database = client.GetDatabase(databaseName);
+            IMongoDatabase database = m_client.GetDatabase(databaseName);
             IMongoCollection<FooBarDocument> collection = database.GetCollection<FooBarDocument>(collectionName);
 
             await collection.InsertOneAsync(insertedDocument);
@@ -125,7 +129,7 @@ namespace MongoRiver.Tests
             await Task.Delay(100);
 
             Oplog lastOplog = await tailer.GetMostRecentOplog();
-            await client.DropDatabaseAsync(databaseName);
+            await m_client.DropDatabaseAsync(databaseName);
             await RunStream(stream, lastOplog);
 
             output.Received(1).UpdateOptime(Arg.Any<BsonTimestamp>());
@@ -136,8 +140,7 @@ namespace MongoRiver.Tests
         [Fact]
         public async Task Stream_IgnoresEverythingBeforeTimestampPassedIn()
         {
-            var client = new MongoClient(MongoConnectionString);
-            var tailer = new Tailer(client);
+            var tailer = new Tailer(m_client);
             IOutlet output = Substitute.For<IOutlet>();
             var stream = new Stream(tailer, output);
 
@@ -148,14 +151,14 @@ namespace MongoRiver.Tests
             var filterDocument = new BsonDocument("_id", "foo");
             var updatedDocument = new FooBarDocument { Id = "foo", Bar = "qux" };
 
-            IMongoDatabase database = client.GetDatabase(databaseName);
+            IMongoDatabase database = m_client.GetDatabase(databaseName);
             IMongoCollection<FooBarDocument> collection = database.GetCollection<FooBarDocument>(collectionName);
 
             await collection.InsertOneAsync(insertedDocument);
             await collection.ReplaceOneAsync(filterDocument, updatedDocument);
 
             Oplog lastOplog = await tailer.GetMostRecentOplog(DateTime.UtcNow.AddSeconds(-3));
-            await client.DropDatabaseAsync(databaseName);
+            await m_client.DropDatabaseAsync(databaseName);
             await RunStream(stream, lastOplog);
 
             output.Received(4).UpdateOptime(Arg.Any<BsonTimestamp>());
@@ -165,12 +168,12 @@ namespace MongoRiver.Tests
         }
 
         /// <summary>
-        /// Run stream for 10 seconds.
+        /// Run stream for 5 seconds.
         /// </summary>
         private async Task RunStream(Stream stream, Oplog startOplog)
         {
             var task = stream.RunForever(startOplog);
-            await Task.WhenAny(task, Task.Delay(10000));
+            await Task.WhenAny(task, Task.Delay(5000));
             stream.Stop();
         }
     }
