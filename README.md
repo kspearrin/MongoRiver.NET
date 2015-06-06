@@ -1,5 +1,7 @@
 # MongoRiver.NET
 
+[![Build Status](https://travis-ci.org/kspearrin/MongoRiver.NET.svg?branch=master)](https://travis-ci.org/kspearrin/MongoRiver.NET)
+
 MongoRiver.NET is a library to monitor updates to your MongoDB databases in
 near-realtime. It provides a simple interface for you to take actions when
 records are inserted, updated, or deleted.
@@ -64,7 +66,7 @@ this to resume interrupted tailers so that no information is lost.
 
 You should save the oplog timestamp each time the `UpdateOptime` method is called.
 This allows you to retreive the `startOplog` when resuming a previous running
-tailer that was interrupted;
+tailer that was interrupted:
 
 The `tailer` object exposes methods that you can use to get the start oplog.
 
