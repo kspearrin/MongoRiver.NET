@@ -3,6 +3,7 @@ var p = require('./package.json')
     assemblyInfo = require('gulp-dotnet-assembly-info')
     xmlpoke = require('gulp-xmlpoke')
     msbuild = require('gulp-msbuild')
+    xunit = require('gulp-xunit-runner')
     nuget = require('nuget-runner')({
         apiKey: process.env.NUGET_API_KEY,
         nugetPath: '.nuget/nuget.exe'
@@ -44,7 +45,21 @@ gulp.task('build', ['restore'], function() {
         }));
 });
 
-gulp.task('nuspec', ['build'], function() {
+gulp.task('copy', ['build'], function(){
+    return gulp
+        .src('packages/xunit.runner.console.*/tools/xunit.console.exe')
+        .pipe(gulp.dest('.xunit'));
+});
+
+gulp.task('test', ['copy'], function() {
+    return gulp
+        .src(['src/MongoRiver.Tests/bin/Release/MongoRiver.Tests.dll'], {read: false})
+        .pipe(xunit({
+            executable: 'packages/xunit.runner.console.2.0.0/tools',
+        }));
+});
+
+gulp.task('nuspec', ['test'], function() {
     return gulp
         .src('MongoRiver.NET.nuspec')
         .pipe(xmlpoke({

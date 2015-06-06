@@ -14,6 +14,7 @@
     "gulp-dotnet-assembly-info": "^0.1.10",
     "gulp-msbuild": "^0.2.11",
     "gulp-xmlpoke": "^0.2.0",
+    "gulp-xunit-runner": "^0.1.1",
     "nuget-runner": "^0.1.5"
   }
 }
