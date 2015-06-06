@@ -28,8 +28,8 @@ namespace MongoRiver.Tests
         public async Task Stream_ExecuteCorrectOperationsInCorrectOrder()
         {
             var tailer = new Tailer(m_client);
-            IOutlet output = Substitute.For<IOutlet>();
-            var stream = new Stream(tailer, output);
+            IOutlet outlet = Substitute.For<IOutlet>();
+            var stream = new Stream(tailer, outlet);
             Oplog lastOplog = await tailer.GetMostRecentOplog();
 
             var databaseName = "_Test_MongoRiver";
@@ -59,22 +59,22 @@ namespace MongoRiver.Tests
 
             await RunStream(stream, lastOplog);
 
-            output.Received(9).UpdateOptime(Arg.Any<BsonTimestamp>());
+            outlet.Received(9).UpdateOptime(Arg.Any<BsonTimestamp>());
 
             Received.InOrder(() =>
             {
-                output.CreateCollection(databaseName, collectionName, new BsonDocument());
+                outlet.CreateCollection(databaseName, collectionName, new BsonDocument());
 
-                output.Insert(databaseName, collectionName, insertedDocument.ToBsonDocument());
-                output.Update(databaseName, collectionName, filterDocument, updatedDocument.ToBsonDocument());
-                output.Delete(databaseName, collectionName, filterDocument);
+                outlet.Insert(databaseName, collectionName, insertedDocument.ToBsonDocument());
+                outlet.Update(databaseName, collectionName, filterDocument, updatedDocument.ToBsonDocument());
+                outlet.Delete(databaseName, collectionName, filterDocument);
 
-                output.CreateIndex(databaseName, collectionName, indexKeyDocument, indexOptionsDocument);
-                output.DeleteIndex(databaseName, collectionName, indexName);
+                outlet.CreateIndex(databaseName, collectionName, indexKeyDocument, indexOptionsDocument);
+                outlet.DeleteIndex(databaseName, collectionName, indexName);
 
-                output.RenameCollection(databaseName, collectionName, newCollectionName);
-                output.DeleteCollection(databaseName, newCollectionName);
-                output.DeleteDatabase(databaseName);
+                outlet.RenameCollection(databaseName, collectionName, newCollectionName);
+                outlet.DeleteCollection(databaseName, newCollectionName);
+                outlet.DeleteDatabase(databaseName);
             });
         }
 
@@ -82,8 +82,8 @@ namespace MongoRiver.Tests
         public async Task Stream_CreateCollectionWithOptions()
         {
             var tailer = new Tailer(m_client);
-            IOutlet output = Substitute.For<IOutlet>();
-            var stream = new Stream(tailer, output);
+            IOutlet outlet = Substitute.For<IOutlet>();
+            var stream = new Stream(tailer, outlet);
             Oplog lastOplog = await tailer.GetMostRecentOplog();
 
             var collectionOptions = new CreateCollectionOptions { Capped = true, MaxSize = 10 };
@@ -99,12 +99,12 @@ namespace MongoRiver.Tests
 
             await RunStream(stream, lastOplog);
 
-            output.Received(2).UpdateOptime(Arg.Any<BsonTimestamp>());
+            outlet.Received(2).UpdateOptime(Arg.Any<BsonTimestamp>());
 
             Received.InOrder(() =>
             {
-                output.CreateCollection(databaseName, collectionName, collectionOptionsDocument);
-                output.DeleteDatabase(databaseName);
+                outlet.CreateCollection(databaseName, collectionName, collectionOptionsDocument);
+                outlet.DeleteDatabase(databaseName);
             });
         }
 
@@ -112,8 +112,8 @@ namespace MongoRiver.Tests
         public async Task Stream_IgnoresEverythingBeforeOperationPassedIn()
         {
             var tailer = new Tailer(m_client);
-            IOutlet output = Substitute.For<IOutlet>();
-            var stream = new Stream(tailer, output);
+            IOutlet outlet = Substitute.For<IOutlet>();
+            var stream = new Stream(tailer, outlet);
 
             var databaseName = "_Test_MongoRiver";
             var collectionName = "_Test_MongoRiver";
@@ -132,17 +132,17 @@ namespace MongoRiver.Tests
             await m_client.DropDatabaseAsync(databaseName);
             await RunStream(stream, lastOplog);
 
-            output.Received(1).UpdateOptime(Arg.Any<BsonTimestamp>());
-            output.DidNotReceive().Insert(databaseName, collectionName, insertedDocument.ToBsonDocument());
-            output.Received().DeleteDatabase(databaseName);
+            outlet.Received(1).UpdateOptime(Arg.Any<BsonTimestamp>());
+            outlet.DidNotReceive().Insert(databaseName, collectionName, insertedDocument.ToBsonDocument());
+            outlet.Received().DeleteDatabase(databaseName);
         }
 
         [Fact]
         public async Task Stream_IgnoresEverythingBeforeTimestampPassedIn()
         {
             var tailer = new Tailer(m_client);
-            IOutlet output = Substitute.For<IOutlet>();
-            var stream = new Stream(tailer, output);
+            IOutlet outlet = Substitute.For<IOutlet>();
+            var stream = new Stream(tailer, outlet);
 
             var databaseName = "_Test_MongoRiver";
             var collectionName = "_Test_MongoRiver";
@@ -161,10 +161,10 @@ namespace MongoRiver.Tests
             await m_client.DropDatabaseAsync(databaseName);
             await RunStream(stream, lastOplog);
 
-            output.Received(4).UpdateOptime(Arg.Any<BsonTimestamp>());
-            output.Received().Insert(databaseName, collectionName, insertedDocument.ToBsonDocument());
-            output.Received().Update(databaseName, collectionName, filterDocument.ToBsonDocument(), updatedDocument.ToBsonDocument());
-            output.Received().DeleteDatabase(databaseName);
+            outlet.Received(4).UpdateOptime(Arg.Any<BsonTimestamp>());
+            outlet.Received().Insert(databaseName, collectionName, insertedDocument.ToBsonDocument());
+            outlet.Received().Update(databaseName, collectionName, filterDocument.ToBsonDocument(), updatedDocument.ToBsonDocument());
+            outlet.Received().DeleteDatabase(databaseName);
         }
 
         /// <summary>
