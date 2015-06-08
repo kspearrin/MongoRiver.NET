@@ -4,6 +4,7 @@ var p = require('./package.json')
     xmlpoke = require('gulp-xmlpoke')
     msbuild = require('gulp-msbuild')
     xunit = require('gulp-xunit-runner')
+    flatten = require('gulp-flatten')
     nuget = require('nuget-runner')({
         apiKey: process.env.NUGET_API_KEY,
         nugetPath: '.nuget/nuget.exe'
@@ -47,7 +48,8 @@ gulp.task('build', ['restore'], function() {
 
 gulp.task('copy', ['build'], function(){
     return gulp
-        .src('packages/xunit.runner.console.*/tools/xunit.console.exe')
+        .src('packages/xunit.runner.console.*/tools/*')
+        .pipe(flatten())
         .pipe(gulp.dest('.xunit'));
 });
 
@@ -55,8 +57,10 @@ gulp.task('test', ['copy'], function() {
     return gulp
         .src(['src/MongoRiver.Tests/bin/Release/MongoRiver.Tests.dll'], {read: false})
         .pipe(xunit({
-            executable: 'packages/xunit.runner.console.2.0.0/tools',
-            trait: 'Build=Runnable'
+            executable: '.xunit',
+            options: {
+                trait: 'Build=Run'
+            }
         }));
 });
 

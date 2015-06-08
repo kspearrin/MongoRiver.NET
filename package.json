@@ -12,6 +12,7 @@
   "dependencies": {
     "gulp": "^3.9.0",
     "gulp-dotnet-assembly-info": "^0.1.10",
+    "gulp-flatten": "0.0.4",
     "gulp-msbuild": "^0.2.11",
     "gulp-xmlpoke": "^0.2.0",
     "gulp-xunit-runner": "^0.1.1",
