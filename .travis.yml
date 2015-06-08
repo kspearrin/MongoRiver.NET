@@ -1,7 +1,7 @@
 language: csharp
 solution: MongoRiver.NET.sln
 mono:
-  - 4.0.1.44
+  - nightly
 script:
   - xbuild /p:Configuration=Release MongoRiver.NET.sln
   - mono ./packages/xunit.runner.console.*/tools/xunit.console.exe ./src/MongoRiver.Tests/bin/Release/MongoRiver.Tests.dll -trait "Build=Run"
