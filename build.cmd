@@ -14,5 +14,6 @@ md .nuget
 copy %CACHED_NUGET% .nuget\nuget.exe > nul
 
 :build
+call npm install -g gulp
 call npm install
 call gulp
