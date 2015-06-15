@@ -1,6 +1,6 @@
 # MongoRiver.NET ![Logo](http://i.imgur.com/9M2oAwT.png)
 
-[![Build Status](https://travis-ci.org/kspearrin/MongoRiver.NET.svg?branch=master)](https://travis-ci.org/kspearrin/MongoRiver.NET)
+[![Build status](https://ci.appveyor.com/api/projects/status/gyfcchs74aoaoqbw?svg=true)](https://ci.appveyor.com/project/kspearrin/mongoriver-net)
 
 MongoRiver.NET is a library to monitor updates to your MongoDB databases in
 near-realtime. It provides a simple interface for you to take actions when
