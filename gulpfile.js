@@ -39,7 +39,7 @@ gulp.task('build', ['restore'], function() {
     return gulp
         .src('MongoRiver.NET.sln')
         .pipe(msbuild({
-            toolsVersion: 15.0,
+            toolsVersion: 13.0,
             targets: ['Clean', 'Build'],
             errorOnFail: true,
             configuration: 'Release'
