@@ -6,7 +6,7 @@ SET CACHED_NUGET=%LocalAppData%\NuGet\NuGet.exe
 
 IF EXIST %CACHED_NUGET% goto copynuget
 IF NOT EXIST %LocalAppData%\NuGet md %LocalAppData%\NuGet
-@powershell -NoProfile -ExecutionPolicy unrestricted -Command "$ProgressPreference = 'SilentlyContinue'; Invoke-WebRequest 'https://www.nuget.org/nuget.exe' -OutFile '%CACHED_NUGET%'"
+@powershell -NoProfile -ExecutionPolicy unrestricted -Command "$ProgressPreference = 'SilentlyContinue'; Invoke-WebRequest 'https://dist.nuget.org/win-x86-commandline/latest/nuget.exe' -OutFile '%CACHED_NUGET%'"
 
 :copynuget
 IF EXIST .nuget\nuget.exe goto build

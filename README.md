@@ -95,6 +95,8 @@ Oplog startOplog = await tailer.GetMostRecentOplog(lastKnowProcessedOplogDateTim
 ```
 
 ## Changelog
+### 1.1.0
+* Upgrade to support MongoDB SDK v2.5
 
 ### 1.0.0
 
