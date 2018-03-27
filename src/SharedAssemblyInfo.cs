@@ -4,5 +4,5 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyDescription("A library for writing .NET MongoDB oplog tailers.")]
 [assembly: AssemblyCompany("Kyle Spearrin")]
 [assembly: AssemblyProduct("MongoRiver.NET")]
-[assembly: AssemblyCopyright("Copyright (C) Kyle Spearrin 2018")]
+[assembly: AssemblyCopyright("Copyright (C) Kyle Spearrin 2015-2018")]
 [assembly: AssemblyVersion("1.1.0")]
