@@ -22,7 +22,7 @@ gulp.task('assemblyInfo', [], function() {
             configuration: 'Release', 
             company: p.author, 
             product: p.name,
-            copyright: 'Copyright (C) ' + p.author + ' ' + new Date().getFullYear()
+            copyright: 'Copyright (C) ' + p.author + ' 2015-' + new Date().getFullYear()
         }))
         .pipe(gulp.dest('src'));
 });
@@ -39,7 +39,7 @@ gulp.task('build', ['restore'], function() {
     return gulp
         .src('MongoRiver.NET.sln')
         .pipe(msbuild({
-            toolsVersion: 12.0,
+            toolsVersion: 15.0,
             targets: ['Clean', 'Build'],
             errorOnFail: true,
             configuration: 'Release'
